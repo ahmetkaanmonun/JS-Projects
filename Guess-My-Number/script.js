@@ -6,8 +6,9 @@
 // document.querySelector('.score').textContent = 10;
 // document.querySelector('.guess').value = 10;
 
-const secretNumber = Math.floor(Math.random() * 20) + 1;
+let secretNumber = Math.floor(Math.random() * 20) + 1;
 let score = 20;
+let highScore = 0;
 const body = document.querySelector('body');
 const scoreText = document.querySelector('.score');
 const checkButton = document.querySelector('.check');
@@ -27,6 +28,11 @@ checkButton.addEventListener('click', () => {
     scoreText.textContent = score;
     body.style.backgroundColor = '#00ff00';
     numberBox.style.width = '30rem';
+
+    if (score > highScore) {
+      highScore = score;
+      scoreText.textContent = highScore;
+    }
   } else if (guess > secretNumber) {
     if (score > 1) {
       message.textContent = '🔥 Too high';
@@ -51,6 +57,7 @@ checkButton.addEventListener('click', () => {
 againButton.addEventListener('click', () => {
   document.querySelector('.guess').value = '';
   score = 20;
+  secretNumber = Math.floor(Math.random() * 20) + 1;
   scoreText.textContent = score;
   numberBox.textContent = '?';
   message.textContent = 'Start guessing ...';
