@@ -1,11 +1,5 @@
 'use strict';
 
-// document.querySelector('.message').textContent = 'Correct Number';
-
-// document.querySelector('.number').textContent = 13;
-// document.querySelector('.score').textContent = 10;
-// document.querySelector('.guess').value = 10;
-
 let secretNumber = Math.floor(Math.random() * 20) + 1;
 let score = 20;
 let highScore = 0;
@@ -16,14 +10,16 @@ const numberBox = document.querySelector('.number');
 const message = document.querySelector('.message');
 const againButton = document.querySelector('.again');
 
+const displayMessage = msg => (message.textContent = msg);
+
 checkButton.addEventListener('click', () => {
   const guess = Number(document.querySelector('.guess').value);
   numberBox.textContent = guess;
   // When there is no input
   if (!guess) {
-    message.textContent = '⛔ No number';
+    displayMessage('⛔ No number');
   } else if (guess === secretNumber) {
-    message.textContent = '✔ Correct Number';
+    displayMessage('✔ Correct Number');
     score++;
     scoreText.textContent = score;
     body.style.backgroundColor = '#00ff00';
@@ -33,22 +29,13 @@ checkButton.addEventListener('click', () => {
       highScore = score;
       scoreText.textContent = highScore;
     }
-  } else if (guess > secretNumber) {
+  } else if (guess !== secretNumber) {
     if (score > 1) {
-      message.textContent = '🔥 Too high';
+      displayMessage(guess > secretNumber ? '🔥 Too high' : '🔽 Too low');
       score--;
       scoreText.textContent = score;
     } else {
-      message.textContent = '❌ Game Over,You Lost.';
-      scoreText.textContent = 0;
-    }
-  } else if (guess < secretNumber) {
-    if (score > 1) {
-      message.textContent = '🔽 Too low';
-      score--;
-      scoreText.textContent = score;
-    } else {
-      message.textContent = '❌ Game Over,You Lost.';
+      displayMessage('❌ Game Over,You Lost.');
       scoreText.textContent = 0;
     }
   }
@@ -60,7 +47,7 @@ againButton.addEventListener('click', () => {
   secretNumber = Math.floor(Math.random() * 20) + 1;
   scoreText.textContent = score;
   numberBox.textContent = '?';
-  message.textContent = 'Start guessing ...';
+  displayMessage('Start guessing ...');
   numberBox.style.width = '15rem';
   body.style.backgroundColor = '#222';
 });
